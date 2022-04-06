@@ -1,14 +1,25 @@
+# SPDX-FileCopyrightText: 2018 Kattni Rembor for Adafruit Industries
+#
+# SPDX-License-Identifier: MIT
+
+"""CircuitPython Essentials: PWM with Fixed Frequency example."""
+import time
 import board
-import busio
-from RGB_serial import rgb
+import pwmio
 
+# LED setup for most CircuitPython boards:
+ledG = pwmio.PWMOut(board.LED_G, frequency=5000, duty_cycle=0)
+# ledR = pwmio.PWMOut(board.LED_R, frequency=5000, duty_cycle=0)
 
-uart = busio.UART(board.TX, board.RX, baudrate=115200)
 
 while True:
-    data = uart.read(4)  # read up to 4 bytes
-
-    if data is not None:
-        print(len(data), data)
-
-        rgb(data)
+    mid = 25
+    for i in range(100):
+        # PWM LED up and down
+        if i < mid:
+            ledG.duty_cycle = int(i * 2 * 65535 / 100)  # Up
+            # ledR.duty_cycle = int(i * 2 * 65535 / 100)  # Down
+        else:
+            ledG.duty_cycle = 65535 - int((i - mid) * 2 * 65535 / 100)  # Down
+            # ledR.duty_cycle = 65535 - int((i - mid) * 2 * 65535 / 100) # Up
+        time.sleep(0.05)

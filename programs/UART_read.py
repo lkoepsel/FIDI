@@ -1,3 +1,6 @@
+# Uses RX/TX of QWIC connector instead of USB
+# Very slow to react
+# Useful if using USB to only power the board
 import board
 import busio
 import digitalio

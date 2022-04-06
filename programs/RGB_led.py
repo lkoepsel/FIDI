@@ -30,15 +30,16 @@ def blue(indicator):
 
 
 def rgb(colors):
-    if 'r' in colors:
-        red('On')
-    else:
-        red('Off')
-    if 'g' in colors:
-        green('On')
-    else:
-        green('Off')
-    if 'b' in colors:
-        blue('On')
-    else:
-        blue('Off')
+    if len(colors) <= 3:
+        if 'r' in colors:
+            red('On')
+        else:
+            red('Off')
+        if 'g' in colors:
+            green('On')
+        else:
+            green('Off')
+        if 'b' in colors:
+            blue('On')
+        else:
+            blue('Off')

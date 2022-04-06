@@ -4,4 +4,6 @@ The [Omzlo: FIDI](https://www.omzlo.com/articles/fidi-a-tiny-board-for-super-fas
 
 ## Additional Library files
 **RGB_serial**: *from RGB_serial import rgb*
-Provides function rgb('r|g|b') to turn RGB led on or off. Any combination of rgb may be provided and for each letter, the appropriate led will turn on. If not provided, the appropriate led will be off. Uses the RX of the QWIC connector, not USB.
+
+Provides function rgb('r|g|b') to turn RGB led **on** or **off**. Any combination of *'rgb'* may be provided and for each letter, the appropriate led will turn **on**. If not provided, the appropriate led will be **off**.
+
