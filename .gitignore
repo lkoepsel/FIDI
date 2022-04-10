@@ -19,5 +19,3 @@ build
 *~
 *.eeprom
 *env*
-./library
-./library/*
