@@ -31,12 +31,22 @@ if pressed != None:
         rgb('r')
 
 ```
+
+## Using Library Files (lib/)
+It's best to load the Library files using the mpy versions as they are smaller and faster to load. To do so, do the following:
+```bash
+mpy lib/filename.py
+cp -X lib/filename.mpy /Volumes/CircuitPython/lib
+```
 ## Example files
+**analog_in:**
+Demonstrates how to use analog input using a context manager. Not required for a small program, however, useful to use as it will release the pin per CircuitPython requirements.
+
 **button_counter:**
 Demonstrates how to use *proto_buttons buttons()*, sets up two buttons using the protoboard and counts each press, printing values over USB
 
 **fsm:**
-Preliminary finite state machine, not yet working.
+Simple, four state, finite state machine (fsm), implemented using a namedtuple. I used a namedtuple to identify the required parameters for the fsm. See file for more details.
 
 **pwm:**
 Example for pwm from Adafruit.
@@ -49,3 +59,4 @@ Handy example to enter *"r|g|b"* to see what color the combinations make. Uses U
 
 **UART_read:**
 Demonstrates how to use the QWIC RX/TX pins as a UART. Very slow to respond, has automatic reading of characters (reads w/o Enter).
+

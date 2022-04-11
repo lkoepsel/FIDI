@@ -1,42 +1,41 @@
+# fsm: Original finite state machine using conditional logic only
+# retained to use to determine efficiency of new fsm
 import board
 from adafruit_debouncer import Debouncer
 import digitalio
 from RGB_led import rgb
 from proto_buttons import buttons
 
+state = 0
 while True:
     # check button, if pressed respond appropriately
-    state = 0
+    change = False
     pressed = buttons()
-    if pressed == "N":
-        change = False
-
-    else:
-        while (state == 0):
-            if pressed == "UP":
+    # print(f"{state=}{pressed=}{change=}")
+    if (pressed is not None):
+        change = True
+        while (change and state == 0):
+            change = False
+            if pressed == "D0":
                 rgb('g')
                 state = 1
-                pressed = False
-                change = True
                 print(f"in state 0 {state =}")
 
-            elif pressed == "ENTER":
+            elif pressed == "D1":
                 rgb('b')
-                state = 10
-                change = True
+                state = 0
 
             else:
                 rgb('r')
 
-        while (state == 1):
-            if pressed == "UP":
+        while (change and state == 1):
+            change = False
+            if pressed == "D0":
                 rgb('g')
                 state = 2
-                pressed = False
-                change = True
                 print(f"in state 1 {state =}")
 
-            elif pressed == "ENTER":
+            elif pressed == "D1":
                 rgb('b')
                 state = 1
                 change = True
@@ -44,16 +43,31 @@ while True:
             else:
                 rgb('r')
 
-        while (state == 2):
-            if pressed == "UP":
+        while (change and state == 2):
+            change = False
+            if pressed == "D0":
                 rgb('g')
-                state = 0
-                change = True
+                state = 3
                 print(f"in state 2 {state =}")
 
-            elif pressed == "ENTER":
+            elif pressed == "D1":
                 rgb('b')
-                state = 1
+                state = 2
+                change = True
+
+            else:
+                rgb('r')
+
+        while (change and state == 3):
+            change = False
+            if pressed == "D0":
+                rgb('g')
+                state = 0
+                print(f"in state 3 {state =}")
+
+            elif pressed == "D1":
+                rgb('b')
+                state = 3
                 change = True
 
             else:
