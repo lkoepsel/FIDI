@@ -42,23 +42,23 @@ def audible_off():
 
 def audible_1():
     speaker.frequency = 500
-    speaker.duty_cycle = pos_dutycycle()
+    speaker.duty_cycle = dutycycle()
     return(0)
 
 
 def ultra_1():
     speaker.frequency = 22000
-    speaker.duty_cycle = pos_dutycycle()
+    speaker.duty_cycle = dutycycle()
     return(0)
 
 
 def ultra_2():
     speaker.frequency = 40000
-    speaker.duty_cycle = pos_dutycycle()
+    speaker.duty_cycle = dutycycle()
     return(0)
 
 
-def pos_dutycycle():
+def dutycycle():
     pos_duty = analog_in.value * 100 // 65535
     print(f"POT: {analog_in.value} {pos_duty=}")
     return(analog_in.value)
