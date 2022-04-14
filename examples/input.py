@@ -5,7 +5,6 @@ from RGB_led import rgb
 
 
 while True:
-    print(f"Enter r|g|b, one, two or all:")
     command = input()
 
     if command is not None:

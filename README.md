@@ -60,3 +60,6 @@ Handy example to enter *"r|g|b"* to see what color the combinations make. Uses U
 **UART_read:**
 Demonstrates how to use the QWIC RX/TX pins as a UART. Very slow to respond, has automatic reading of characters (reads w/o Enter).
 
+## Utilities
+**mpl.sh**
+Copy file to preferred folder *(in my case, \~/bin)* and add to the build process. This will create a .mpy version of the file being edited and will copy it to the lib folder under CircuitPython. 
