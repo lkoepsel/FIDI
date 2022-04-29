@@ -88,8 +88,7 @@ def p7():
 
 task_list = (p8, p9, p2, p3, p4, p5, p6, p7)
 
-
-print("Running tasks")
-while True:
-    for task in task_list:
-        task()
+def tasks():
+    while True:
+        for task in task_list:
+            task()

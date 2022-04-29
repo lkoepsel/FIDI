@@ -3,43 +3,27 @@ from digitalio import DigitalInOut, Direction
 
 
 RED = DigitalInOut(board.LED_R)
+RED.direction = Direction.OUTPUT
+RED.value = True
 GREEN = DigitalInOut(board.LED_G)
+GREEN.direction = Direction.OUTPUT
+GREEN.value = True
 BLUE = DigitalInOut(board.LED_B)
-
-
-def red(indicator):
-    if indicator == 'Off':
-        RED.direction = Direction.INPUT
-    else:
-        RED.direction = Direction.OUTPUT
-        RED.value = False
-
-def green(indicator):
-    if indicator == 'Off':
-        GREEN.direction = Direction.INPUT
-    else:
-        GREEN.direction = Direction.OUTPUT
-        GREEN.value = False
-
-def blue(indicator):
-    if indicator == 'Off':
-        BLUE.direction = Direction.INPUT
-    else:
-        BLUE.direction = Direction.OUTPUT
-        BLUE.value = False
+BLUE.direction = Direction.OUTPUT
+BLUE.value = True
 
 
 def rgb(colors):
     if len(colors) <= 3:
         if 'r' in colors:
-            red('On')
+            RED.value = False
         else:
-            red('Off')
+            RED.value = True
         if 'g' in colors:
-            green('On')
+            GREEN.value = False
         else:
-            green('Off')
+            GREEN.value = True
         if 'b' in colors:
-            blue('On')
+            BLUE.value = False
         else:
-            blue('Off')
+            BLUE.value = True
