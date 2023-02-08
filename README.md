@@ -1,4 +1,6 @@
 # CircuitPython on the Omzlo FIDI Board
+## Omzlo FIDI
+![Omzlo FIDI pinout](./fidi-pinout.png)
 ## Introduction
 The [Omzlo: FIDI](https://www.omzlo.com/articles/fidi-a-tiny-board-for-super-fast-prototyping-with-circuitpython) is quite attractive for prototyping due to its size, cost and relative power. It is based on the ATSAMD21 microcontroller which is an ARM M0+-based chip. Due to its specs (48Mhz/4MB Flash/32K RAM), you can easily and quickly program it using CircuitPython (or MicroPython). In my case, I'll be using CircuitPython to take advantage of a number of Adafruit boards. You will want to install the latest  using [CircuitPython Serpente](https://circuitpython.org/board/serpente/) and also get the latest [CircuitPython Library Bundle](https://circuitpython.org/libraries).
 

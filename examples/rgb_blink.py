@@ -9,21 +9,23 @@ BLUE = DigitalInOut(board.LED_B)
 
 
 def red(indicator):
-    if indicator == True:
+    if indicator:
         RED.direction = Direction.INPUT
     else:
         RED.direction = Direction.OUTPUT
         RED.value = False
 
+
 def green(indicator):
-    if indicator == True:
+    if indicator:
         GREEN.direction = Direction.INPUT
     else:
         GREEN.direction = Direction.OUTPUT
         GREEN.value = False
 
+
 def blue(indicator):
-    if indicator == True:
+    if indicator:
         BLUE.direction = Direction.INPUT
     else:
         BLUE.direction = Direction.OUTPUT
