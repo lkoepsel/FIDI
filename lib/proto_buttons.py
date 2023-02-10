@@ -1,3 +1,4 @@
+# lib/proto_buttons - provides debounce and press for buttons on proto board
 import board
 from adafruit_debouncer import Debouncer
 import digitalio
@@ -12,15 +13,15 @@ def attach_Button(pin):
 
 def buttons():
     while True:
-        button_D0.update()
-        button_D1.update()
-        if button_D0.rose:
-            return "D0"
-        if button_D1.rose:
-            return "D1"
+        button_D2.update()
+        button_D3.update()
+        if button_D2.rose:
+            return "D2"
+        if button_D3.rose:
+            return "D3"
         else:
             return None
 
 
-button_D0 = attach_Button(board.D0)
-button_D1 = attach_Button(board.D1)
+button_D2 = attach_Button(board.D2)
+button_D3 = attach_Button(board.D3)

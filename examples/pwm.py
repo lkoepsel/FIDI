@@ -20,5 +20,5 @@ while True:
             ledR.duty_cycle = int(i * 2 * 65535 / 100)  # Down
         else:
             ledG.duty_cycle = 65535 - int((i - 50) * 2 * 65535 / 100)  # Down
-            ledR.duty_cycle = 65535 - int((i - 50) * 2 * 65535 / 100) # Up
+            ledR.duty_cycle = 65535 - int((i - 50) * 2 * 65535 / 100)  # Up
         time.sleep(0.05)

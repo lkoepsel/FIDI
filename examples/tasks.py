@@ -1,4 +1,4 @@
-# simple round-robin scheduler to test speed 
+ # simple round-robin scheduler to test speed 
 # as the FIDI board only has nine pins available
 # uses 8 tasks to make it even to compare to other boards/languages
 import time

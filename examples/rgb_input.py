@@ -1,6 +1,5 @@
 # rgb_input - use to demonstrate rgb function
 # enter r|g|b at terminal and appropriate led will light
-import board
 from RGB_led import rgb
 
 

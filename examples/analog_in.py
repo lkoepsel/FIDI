@@ -1,10 +1,11 @@
+# analog_in - read an ADC pin and print the voltage
 import time
 import board
 from analogio import AnalogIn
 
-with AnalogIn(board.A2) as analog_in:
+with AnalogIn(board.A0) as analog_in:
 
     while True:
-        normalized = analog_in.value * 100 // 65535
-        print(analog_in.value, normalized)
-        time.sleep(0.5)
+        voltage = analog_in.value * 3.3 / 65535
+        print(f'{analog_in.value}, {voltage: .2f}')
+        time.sleep(2.0)
