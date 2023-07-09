@@ -5,24 +5,24 @@ from proto_buttons import buttons
 
 count_UP = 0
 count_ENTER = 0
+print(f"Begin ")
 while True:
+    print(f"Loop:")
     # check button, if pressed respond appropriately
     pressed = buttons()
+    print(f"{pressed=}")
     if (pressed is not None):
-        if pressed == "D3":
+        if pressed == "STEP":
             pressed = None
-            print(pressed)
             count_UP += 1
-            print(f"{count_UP =}")
-            rgb('gb')
+            print(f"STEP count = {count_UP}")
+            rgb('g')
 
-        elif pressed == "D2":
+        elif pressed == "ENTER":
             pressed = None
-            print(pressed)
             count_ENTER += 1
-            print(f"{count_ENTER =}")
+            print(f"ENTER count = {count_ENTER}")
             rgb('b')
 
         else:
-            print(f"{pressed =}")
-            rgb('gr')
+            rgb('r')

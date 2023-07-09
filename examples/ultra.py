@@ -14,17 +14,8 @@ import pwmio
 from RGB_led import rgb
 from proto_buttons import buttons
 from collections import namedtuple
-# import supervisor
 from digitalio import DigitalInOut, Direction
 
-
-# STEP = DigitalInOut(board.D0)
-# STEP.direction = Direction.INPUT
-# STEP.pull = Pull.UP
-
-# ENTER = DigitalInOut(board.D1)
-# ENTER.direction = Direction.INPUT
-# ENTER.pull = Pull.UP
 
 bit_1 = DigitalInOut(board.D0)
 bit_1.direction = Direction.OUTPUT
@@ -32,13 +23,12 @@ bit_1.direction = Direction.OUTPUT
 bit_0 = DigitalInOut(board.D1)
 bit_0.direction = Direction.OUTPUT
 
-status = DigitalInOut(board.D4)
+status = DigitalInOut(board.D5)
 status.direction = Direction.OUTPUT
 
-speaker = pwmio.PWMOut(board.D5, frequency=500, duty_cycle=0,
+speaker = pwmio.PWMOut(board.D4, frequency=500, duty_cycle=0,
                        variable_frequency=True)
 
-# supervisor.disable_autoreload()
 
 state = 0
 change = False
@@ -48,6 +38,7 @@ def s_0():
     print(f"state 0")
     audible_off()
     leds(0)
+    status.value = 0
     return (state_0)
 
 
@@ -55,6 +46,7 @@ def s_1():
     print(f"state 1")
     audible_off()
     leds(1)
+    status.value = 0
     return (state_1)
 
 
@@ -62,6 +54,7 @@ def s_2():
     print(f"state 2")
     audible_off()
     leds(2)
+    status.value = 0
     return (state_2)
 
 
@@ -69,6 +62,7 @@ def s_3():
     print(f"state 3")
     audible_off()
     leds(3)
+    status.value = 0
     return (state_3)
 
 
@@ -76,6 +70,7 @@ def s_4():
     print(f"state 4")
     audible_off()
     leds(1)
+    status.value = 1
     return (state_4)
 
 
@@ -83,6 +78,7 @@ def s_5():
     print(f"state 5")
     audible_off()
     leds(2)
+    status.value = 1
     return (state_5)
 
 
@@ -90,27 +86,30 @@ def s_6():
     print(f"state 6")
     audible_off()
     leds(3)
+    status.value = 1
     return (state_6)
 
 
 def leds(n):
+    print(f"{n=}")
     if n == 0:
+        bit_0.value = 0
+        bit_1.value = 0
+    elif n == 1:
+        bit_0.value = 1
+        bit_1.value = 0
+    elif n == 2:
         bit_0.value = 0
         bit_1.value = 1
-    if n == 0:
-        bit_0.value = 0
-        bit_1.value = 1
-    if n == 0:
-        bit_0.value = 0
-        bit_1.value = 1
-    if n == 0:
-        bit_0.value = 0
+    elif n == 3:
+        bit_0.value = 1
         bit_1.value = 1
     else:
-        error()
+        error(1)
 
 
-def error():
+def error(e):
+    print(f"{e=}")
     rgb('r')
 
 
@@ -159,15 +158,11 @@ state_6 = states(6, s_0, s_6)
 
 
 STATE = state_0
-print(f"start: {STATE.state}")
 while True:
-    print(f"loop: {STATE.state}")
     # check button, if pressed respond appropriately
     pressed = buttons()
-    print(f"{pressed=}")
 
     if (pressed is not None):
-        print(f"not None: {pressed=}")
         if pressed == "STEP":
             STATE = STATE.onSTEP()
 
@@ -175,5 +170,5 @@ while True:
             STATE = STATE.onENTER()
 
         else:
-            error()
+            error(0)
     pressed = None
