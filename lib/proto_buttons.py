@@ -2,6 +2,7 @@
 import board
 from adafruit_debouncer import Debouncer
 import digitalio
+from time import sleep
 
 
 def attach_Button(pin):
@@ -13,15 +14,19 @@ def attach_Button(pin):
 
 def buttons():
     while True:
-        button_D2.update()
-        button_D3.update()
-        if button_D2.rose:
-            return "D2"
-        if button_D3.rose:
-            return "D3"
+        button_STEP.update()
+        button_ENTER.update()
+
+        if button_STEP.rose:
+            print(f"STEP")
+            return "STEP"
+        if button_ENTER.rose:
+            print(f"ENTER")
+            return "ENTER"
         else:
+            sleep(1)
             return None
 
 
-button_D2 = attach_Button(board.D2)
-button_D3 = attach_Button(board.D3)
+button_STEP = attach_Button(board.D3)
+button_ENTER = attach_Button(board.D2)

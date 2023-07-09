@@ -1,7 +1,5 @@
-# simple round-robin scheduler to test speed 
-# as the FIDI board only has nine pins available
+# simple round-robin scheduler to test speed
 # uses 8 tasks to make it even to compare to other boards/languages
-import time
 import board
 from digitalio import DigitalInOut, Direction
 
@@ -30,16 +28,6 @@ PIN6.value = True
 PIN7 = DigitalInOut(board.GP7)
 PIN7.direction = Direction.OUTPUT
 PIN7.value = True
-
-# RED = DigitalInOut(board.LED_R)
-# RED.direction = Direction.OUTPUT
-# RED.value = True
-# GREEN = DigitalInOut(board.LED_G)
-# GREEN.direction = Direction.OUTPUT
-# GREEN.value = True
-# BLUE = DigitalInOut(board.LED_B)
-# BLUE.direction = Direction.OUTPUT
-# BLUE.value = True
 
 
 def p8():
@@ -74,19 +62,8 @@ def p7():
     PIN7.value = not PIN7.value
 
 
-# def r():
-#     RED.value = not RED.value
-
-
-# def g():
-#     GREEN.value = not GREEN.value
-
-
-# def b():
-#     BLUE.value = not BLUE.value
-
-
 task_list = (p8, p9, p2, p3, p4, p5, p6, p7)
+
 
 def tasks():
     while True:

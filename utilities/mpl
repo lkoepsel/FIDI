@@ -1,0 +1,4 @@
+function mpl
+	/Users/lkoepsel/bin/mpy $argv
+	cp -X $argv /Volumes/CIRCUITPY/lib
+end
