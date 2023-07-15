@@ -1,4 +1,5 @@
-""" fsm: finite state machine
+""" ultra_random: provides two fixed frequencies (500, 40kHz) and a random
+frequency for a random amount of time.
 
 Uses namedtuple instances to identify states, parameters are:
 state: current state
@@ -6,7 +7,7 @@ onSTEP: state to move to based on press of STEP button
 onENTER: state to move to based on press of ENTER button
 
 Example:
-state_1 = states(1, 2, 1)
+state_1 = states(1, 2, 4)
 
 """
 import board
@@ -15,6 +16,8 @@ from RGB_led import rgb
 from proto_buttons import buttons
 from collections import namedtuple
 from digitalio import DigitalInOut, Direction
+from random import randrange
+from adafruit_ticks import ticks_ms
 
 
 bit_1 = DigitalInOut(board.D0)
@@ -28,10 +31,6 @@ status.direction = Direction.OUTPUT
 
 speaker = pwmio.PWMOut(board.D4, frequency=500, duty_cycle=0,
                        variable_frequency=True)
-
-
-state = 0
-change = False
 
 
 def s_0():
@@ -68,7 +67,7 @@ def s_3():
 
 def s_4():
     print(f"state 4")
-    audible_off()
+    audible_on()
     leds(1)
     status.value = 1
     return (state_4)
@@ -76,7 +75,7 @@ def s_4():
 
 def s_5():
     print(f"state 5")
-    audible_off()
+    ultra_random()
     leds(2)
     status.value = 1
     return (state_5)
@@ -84,7 +83,7 @@ def s_5():
 
 def s_6():
     print(f"state 6")
-    audible_off()
+    ultra_2()
     leds(3)
     status.value = 1
     return (state_6)
@@ -113,11 +112,6 @@ def error(e):
     rgb('r')
 
 
-def null_stub():
-    print('null')
-    return()
-
-
 def audible_off():
     speaker.duty_cycle = 0
     return(0)
@@ -129,8 +123,10 @@ def audible_on():
     return(0)
 
 
-def ultra_1():
-    speaker.frequency = 22000
+def ultra_random():
+    rand_freq = randrange(20000, 50000, 1000)
+    print(f"{rand_freq=} {rand_delay=}")
+    speaker.frequency = rand_freq
     speaker.duty_cycle = dutycycle()
     return(0)
 
@@ -142,7 +138,7 @@ def ultra_2():
 
 
 def dutycycle():
-    pos_duty = 0x7fff
+    pos_duty = 65535 // 2
     print(f"Positive Duty {pos_duty}")
     return(pos_duty)
 
@@ -156,12 +152,17 @@ state_4 = states(4, s_2, s_4)
 state_5 = states(5, s_3, s_5)
 state_6 = states(6, s_0, s_6)
 
-
 STATE = state_0
+rand_delay = 0
+current_time = ticks_ms()
 while True:
     # check button, if pressed respond appropriately
     pressed = buttons()
-
+    if STATE.state == 5:
+        if ticks_ms() >= current_time + rand_delay:
+            current_time = ticks_ms()
+            rand_delay = randrange(500, 10000, 50)
+            ultra_random()
     if (pressed is not None):
         if pressed == "STEP":
             STATE = STATE.onSTEP()
