@@ -9,6 +9,13 @@ onENTER: state to move to based on press of ENTER button
 Example:
 state_1 = states(1, 2, 4)
 
+Requires:
+    ultra.py -> code.py
+    lib:
+        adafruit_ticks.mpy
+        adafruit_debouncer.mpy
+        proto_buttons.mpy
+        RGB_LED.mpy
 """
 import board
 import pwmio

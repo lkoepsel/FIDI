@@ -14,6 +14,34 @@
 ## Introduction
 The [Omzlo: FIDI](https://www.omzlo.com/articles/fidi-a-tiny-board-for-super-fast-prototyping-with-circuitpython) is quite attractive for prototyping due to its size, cost and relative power. It is based on the ATSAMD21 microcontroller which is an ARM M0+-based chip. Due to its specs, you can easily and quickly program it using *CircuitPython* (or *MicroPython*). In my case, I'll be using *CircuitPython* to take advantage of a number of Adafruit boards. You will want to install the latest  using [CircuitPython Serpente](https://circuitpython.org/board/serpente/) and also get the latest [CircuitPython Library Bundle](https://circuitpython.org/libraries).
 
+## Applications (*run as code.py*)
+* **ultra_fixed:** provides three fixed frequencies (500, 22kHz, 40kHz)
+    Uses namedtuple instances to identify states, parameters are:
+    state: current state
+    onSTEP: state to move to based on press of STEP button
+    onENTER: state to move to based on press of ENTER button
+
+    Example:
+    state_1 = states(1, 2, 4)
+
+
+* **ultra_random:** provides two fixed frequencies (500, 40kHz) and a random
+    Uses namedtuple instances to identify states, parameters are:
+    state: current state
+    onSTEP: state to move to based on press of STEP button
+    onENTER: state to move to based on press of ENTER button
+
+    Example:
+    state_1 = states(1, 2, 4)
+
+    Requires:
+        ultra.py -> code.py
+        lib:
+            adafruit_ticks.mpy
+            adafruit_debouncer.mpy
+            proto_buttons.mpy
+            RGB_LED.mpy
+
 ## Library Files
 **RGB_led:** 
 ```python
