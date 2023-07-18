@@ -1,3 +1,11 @@
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+# simple single task program to test overhead
+# as the FIDI board only has nine pins available
+# uses 8 tasks to make it even to compare to other boards/languages
+=======
+>>>>>>> Stashed changes
 """ ultra_random: provides two fixed frequencies (500, 40kHz) and a random
 frequency for a random amount of time.
 
@@ -17,29 +25,33 @@ Requires:
         proto_buttons.mpy
         RGB_LED.mpy
 """
+>>>>>>> origin/main
 import board
-import pwmio
-from RGB_led import rgb
-from proto_buttons import buttons
-from collections import namedtuple
 from digitalio import DigitalInOut, Direction
 from random import randrange
 from adafruit_ticks import ticks_ms
 
 
-bit_1 = DigitalInOut(board.D0)
-bit_1.direction = Direction.OUTPUT
-
-bit_0 = DigitalInOut(board.D1)
-bit_0.direction = Direction.OUTPUT
-
-status = DigitalInOut(board.D5)
-status.direction = Direction.OUTPUT
-
-speaker = pwmio.PWMOut(board.D4, frequency=500, duty_cycle=0,
-                       variable_frequency=True)
+PIN5 = DigitalInOut(board.D5)
+PIN5.direction = Direction.OUTPUT
+PIN5.value = True
 
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+def p5():
+    PIN5.value = not PIN5.value
+
+
+tasks = (p5,)
+
+
+while True:
+    for task in tasks:
+        task()
+=======
+>>>>>>> Stashed changes
 def s_0():
     print(f"state 0")
     audible_off()
@@ -180,3 +192,4 @@ while True:
         else:
             error(0)
     pressed = None
+>>>>>>> origin/main
