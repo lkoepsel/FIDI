@@ -43,7 +43,7 @@ speaker = pwmio.PWMOut(board.D4, frequency=500, duty_cycle=0,
 def s_0():
     print(f"state 0")
     audible_off()
-    leds(0)
+    state_leds(0)
     status_led(0)
     return (state_0)
 
@@ -51,7 +51,7 @@ def s_0():
 def s_1():
     print(f"state 1")
     audible_off()
-    leds(1)
+    state_leds(1)
     status_led(0)
     return (state_1)
 
@@ -59,7 +59,7 @@ def s_1():
 def s_2():
     print(f"state 2")
     audible_off()
-    leds(2)
+    state_leds(2)
     status_led(0)
     return (state_2)
 
@@ -67,7 +67,7 @@ def s_2():
 def s_3():
     print(f"state 3")
     audible_off()
-    leds(3)
+    state_leds(3)
     status_led(0)
     return (state_3)
 
@@ -75,7 +75,7 @@ def s_3():
 def s_4():
     print(f"state 4")
     audible_on()
-    leds(1)
+    state_leds(1)
     status_led(1)
     return (state_4)
 
@@ -83,7 +83,7 @@ def s_4():
 def s_5():
     print(f"state 5")
     ultra_random()
-    leds(2)
+    state_leds(2)
     status_led(1)
     return (state_5)
 
@@ -91,14 +91,14 @@ def s_5():
 def s_6():
     print(f"state 6")
     ultra_2()
-    leds(3)
+    state_leds(3)
     status_led(1)
     return (state_6)
 
 
-def leds(n):
-    print(f"{n=}")
+def state_leds(n):
     while(startup):
+        print(f"{n=}")
         if n == 0:
             bit_0.value = 0
             bit_1.value = 0
@@ -122,7 +122,7 @@ def error(e):
 
 def status_led(v):
     while(startup):
-        print(f"{e=}")
+        print(f"{v=}")
         status.value = v
 
 
