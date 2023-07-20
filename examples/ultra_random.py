@@ -33,18 +33,21 @@ bit_1.direction = Direction.OUTPUT
 bit_0 = DigitalInOut(board.D1)
 bit_0.direction = Direction.OUTPUT
 
-status = DigitalInOut(board.D5)
-status.direction = Direction.OUTPUT
-
 speaker = pwmio.PWMOut(board.D4, frequency=500, duty_cycle=0,
                        variable_frequency=True)
+
+low = 65535 // 16
+med = 65535 // 4
+high = 65535 // 2
+status = pwmio.PWMOut(board.D5, frequency=60, duty_cycle=med,
+                      variable_frequency=True)
 
 
 def s_0():
     print(f"state 0")
     audible_off()
     state_leds(0)
-    status_led(0)
+    status_off()
     return (state_0)
 
 
@@ -52,7 +55,7 @@ def s_1():
     print(f"state 1")
     audible_off()
     state_leds(1)
-    status_led(0)
+    status_off()
     return (state_1)
 
 
@@ -60,7 +63,7 @@ def s_2():
     print(f"state 2")
     audible_off()
     state_leds(2)
-    status_led(0)
+    status_off()
     return (state_2)
 
 
@@ -68,7 +71,7 @@ def s_3():
     print(f"state 3")
     audible_off()
     state_leds(3)
-    status_led(0)
+    status_off()
     return (state_3)
 
 
@@ -76,7 +79,7 @@ def s_4():
     print(f"state 4")
     audible_on()
     state_leds(1)
-    status_led(1)
+    status_on(med)
     return (state_4)
 
 
@@ -84,7 +87,7 @@ def s_5():
     print(f"state 5")
     ultra_random()
     state_leds(2)
-    status_led(1)
+    status_on(med)
     return (state_5)
 
 
@@ -92,7 +95,7 @@ def s_6():
     print(f"state 6")
     ultra_2()
     state_leds(3)
-    status_led(1)
+    status_on(med)
     return (state_6)
 
 
@@ -127,6 +130,17 @@ def status_led(s):
         status.value = s
 
 
+def status_off():
+    status.duty_cycle = 0
+    return(0)
+
+
+def status_on(dc):
+    status.frequency = 60
+    status.duty_cycle = dc
+    return(0)
+
+
 def audible_off():
     speaker.duty_cycle = 0
     return(0)
@@ -154,7 +168,6 @@ def ultra_2():
 
 def dutycycle():
     pos_duty = 65535 // 2
-    print(f"Positive Duty {pos_duty}")
     return(pos_duty)
 
 
@@ -187,6 +200,7 @@ while True:
     else:
         startup = False
         state_leds(0)
+        status_on(low)
     if STATE.state == 5:
         if ticks_ms() >= current_time + rand_delay:
             current_time = ticks_ms()
