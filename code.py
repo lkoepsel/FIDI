@@ -1,11 +1,3 @@
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-# simple single task program to test overhead
-# as the FIDI board only has nine pins available
-# uses 8 tasks to make it even to compare to other boards/languages
-=======
->>>>>>> Stashed changes
 """ ultra_random: provides two fixed frequencies (500, 40kHz) and a random
 frequency for a random amount of time.
 
@@ -25,110 +17,119 @@ Requires:
         proto_buttons.mpy
         RGB_LED.mpy
 """
->>>>>>> origin/main
 import board
+import pwmio
+from RGB_led import rgb
+from proto_buttons import buttons
+from collections import namedtuple
 from digitalio import DigitalInOut, Direction
 from random import randrange
-from adafruit_ticks import ticks_ms
+from adafruit_ticks import ticks_ms, ticks_add, ticks_less
 
 
-PIN5 = DigitalInOut(board.D5)
-PIN5.direction = Direction.OUTPUT
-PIN5.value = True
+bit_1 = DigitalInOut(board.D0)
+bit_1.direction = Direction.OUTPUT
+
+bit_0 = DigitalInOut(board.D1)
+bit_0.direction = Direction.OUTPUT
+
+status = DigitalInOut(board.D5)
+status.direction = Direction.OUTPUT
+
+speaker = pwmio.PWMOut(board.D4, frequency=500, duty_cycle=0,
+                       variable_frequency=True)
 
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-def p5():
-    PIN5.value = not PIN5.value
-
-
-tasks = (p5,)
-
-
-while True:
-    for task in tasks:
-        task()
-=======
->>>>>>> Stashed changes
 def s_0():
     print(f"state 0")
     audible_off()
-    leds(0)
-    status.value = 0
+    state_leds(0)
+    status_led(0)
     return (state_0)
 
 
 def s_1():
     print(f"state 1")
     audible_off()
-    leds(1)
-    status.value = 0
+    state_leds(1)
+    status_led(0)
     return (state_1)
 
 
 def s_2():
     print(f"state 2")
     audible_off()
-    leds(2)
-    status.value = 0
+    state_leds(2)
+    status_led(0)
     return (state_2)
 
 
 def s_3():
     print(f"state 3")
     audible_off()
-    leds(3)
-    status.value = 0
+    state_leds(3)
+    status_led(0)
     return (state_3)
 
 
 def s_4():
     print(f"state 4")
     audible_on()
-    leds(1)
-    status.value = 1
+    state_leds(1)
+    status_led(1)
     return (state_4)
 
 
 def s_5():
     print(f"state 5")
     ultra_random()
-    leds(2)
-    status.value = 1
+    state_leds(2)
+    status_led(1)
     return (state_5)
 
 
 def s_6():
     print(f"state 6")
     ultra_2()
-    leds(3)
-    status.value = 1
+    state_leds(3)
+    status_led(1)
     return (state_6)
 
 
-def leds(n):
-    print(f"{n=}")
-    if n == 0:
-        bit_0.value = 0
-        bit_1.value = 0
-    elif n == 1:
-        bit_0.value = 1
-        bit_1.value = 0
-    elif n == 2:
-        bit_0.value = 0
-        bit_1.value = 1
-    elif n == 3:
-        bit_0.value = 1
-        bit_1.value = 1
-    else:
-        error(1)
+def s_7():
+    print(f"state 7")
+    init = True
+    return (state_7)
+
+
+def state_leds(n):
+    if startup:
+        print(f"{n=}")
+        if n == 0:
+            bit_0.value = 0
+            bit_1.value = 0
+        elif n == 1:
+            bit_0.value = 1
+            bit_1.value = 0
+        elif n == 2:
+            bit_0.value = 0
+            bit_1.value = 1
+        elif n == 3:
+            bit_0.value = 1
+            bit_1.value = 1
+        else:
+            error(1)
 
 
 def error(e):
     print(f"{e=}")
     rgb('r')
+
+
+def status_led(s):
+    if startup:
+        print(f"{s=}")
+        status.value = s
 
 
 def audible_off():
@@ -166,17 +167,30 @@ states = namedtuple('states', ['state', 'onSTEP', 'onENTER'])
 state_0 = states(0, s_1, s_0)
 state_1 = states(1, s_2, s_4)
 state_2 = states(2, s_3, s_5)
-state_3 = states(3, s_0, s_6)
+state_3 = states(3, s_7, s_6)
 state_4 = states(4, s_2, s_4)
 state_5 = states(5, s_3, s_5)
-state_6 = states(6, s_0, s_6)
+state_6 = states(6, s_7, s_7)
+state_7 = states(6, s_0, s_0)
 
+init = True
 STATE = state_0
-rand_delay = 0
-current_time = ticks_ms()
 while True:
+    
+    if init:
+        rand_delay = 0
+        on_delay = 10000
+        current_time = ticks_ms()
+        start_time = ticks_ms()
+        off_time = ticks_add(start_time, on_delay)
+        startup = False
+        init = False
+        STATE.onENTER()
+
     # check button, if pressed respond appropriately
     pressed = buttons()
+    if ticks_less(ticks_ms(), off_time):
+        startup = True
     if STATE.state == 5:
         if ticks_ms() >= current_time + rand_delay:
             current_time = ticks_ms()
@@ -192,4 +206,3 @@ while True:
         else:
             error(0)
     pressed = None
->>>>>>> origin/main

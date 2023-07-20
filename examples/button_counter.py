@@ -7,10 +7,8 @@ count_UP = 0
 count_ENTER = 0
 print(f"Begin ")
 while True:
-    print(f"Loop:")
     # check button, if pressed respond appropriately
     pressed = buttons()
-    print(f"{pressed=}")
     if (pressed is not None):
         if pressed == "STEP":
             pressed = None
