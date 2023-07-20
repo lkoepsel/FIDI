@@ -11,16 +11,15 @@ while True:
     pressed = buttons()
     if (pressed is not None):
         if pressed == "STEP":
-            pressed = None
             count_UP += 1
             print(f"STEP count = {count_UP}")
             rgb('g')
 
         elif pressed == "ENTER":
-            pressed = None
             count_ENTER += 1
             print(f"ENTER count = {count_ENTER}")
             rgb('b')
 
         else:
             rgb('r')
+        pressed = None

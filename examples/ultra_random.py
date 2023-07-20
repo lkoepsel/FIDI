@@ -97,7 +97,7 @@ def s_6():
 
 
 def state_leds(n):
-    while(startup):
+    if startup:
         print(f"{n=}")
         if n == 0:
             bit_0.value = 0
@@ -111,8 +111,9 @@ def state_leds(n):
         elif n == 3:
             bit_0.value = 1
             bit_1.value = 1
-        else:
-            error(1)
+    else:
+        bit_0.value = 0
+        bit_1.value = 0
 
 
 def error(e):
@@ -120,10 +121,10 @@ def error(e):
     rgb('r')
 
 
-def status_led(v):
-    while(startup):
-        print(f"{v=}")
-        status.value = v
+def status_led(s):
+    if startup:
+        print(f"{s=}")
+        status.value = s
 
 
 def audible_off():
@@ -164,20 +165,28 @@ state_2 = states(2, s_3, s_5)
 state_3 = states(3, s_0, s_6)
 state_4 = states(4, s_2, s_4)
 state_5 = states(5, s_3, s_5)
-state_6 = states(6, s_0, s_6)
+state_6 = states(6, s_0, s_0)
 
+init = True
 STATE = state_0
-rand_delay = 0
-on_delay = 10000
-current_time = ticks_ms()
-start_time = ticks_ms()
-off_time = ticks_add(start_time, on_delay)
-startup = False
 while True:
+    if init:
+        rand_delay = 0
+        on_delay = 10000
+        current_time = ticks_ms()
+        start_time = ticks_ms()
+        off_time = ticks_add(start_time, on_delay)
+        startup = False
+        init = False
+        STATE.onENTER()
+
     # check button, if pressed respond appropriately
     pressed = buttons()
     if ticks_less(ticks_ms(), off_time):
         startup = True
+    else:
+        startup = False
+        state_leds(0)
     if STATE.state == 5:
         if ticks_ms() >= current_time + rand_delay:
             current_time = ticks_ms()

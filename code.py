@@ -96,12 +96,6 @@ def s_6():
     return (state_6)
 
 
-def s_7():
-    print(f"state 7")
-    init = True
-    return (state_7)
-
-
 def state_leds(n):
     if startup:
         print(f"{n=}")
@@ -117,8 +111,9 @@ def state_leds(n):
         elif n == 3:
             bit_0.value = 1
             bit_1.value = 1
-        else:
-            error(1)
+    else:
+        bit_0.value = 0
+        bit_1.value = 0
 
 
 def error(e):
@@ -167,16 +162,14 @@ states = namedtuple('states', ['state', 'onSTEP', 'onENTER'])
 state_0 = states(0, s_1, s_0)
 state_1 = states(1, s_2, s_4)
 state_2 = states(2, s_3, s_5)
-state_3 = states(3, s_7, s_6)
+state_3 = states(3, s_0, s_6)
 state_4 = states(4, s_2, s_4)
 state_5 = states(5, s_3, s_5)
-state_6 = states(6, s_7, s_7)
-state_7 = states(6, s_0, s_0)
+state_6 = states(6, s_0, s_0)
 
 init = True
 STATE = state_0
 while True:
-    
     if init:
         rand_delay = 0
         on_delay = 10000
@@ -191,6 +184,9 @@ while True:
     pressed = buttons()
     if ticks_less(ticks_ms(), off_time):
         startup = True
+    else:
+        startup = False
+        state_leds(0)
     if STATE.state == 5:
         if ticks_ms() >= current_time + rand_delay:
             current_time = ticks_ms()
