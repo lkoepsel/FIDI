@@ -28,6 +28,7 @@ def rgb(colors):
         else:
             BLUE.value = True
 
+
 def rgb_blink(colors, rate, duration):
     if len(colors) <= 3:
         if 'r' in colors:

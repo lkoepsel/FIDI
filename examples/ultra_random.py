@@ -19,7 +19,6 @@ Requires:
 """
 import board
 import pwmio
-from RGB_led import rgb
 from proto_buttons import buttons
 from collections import namedtuple
 from digitalio import DigitalInOut, Direction
@@ -33,14 +32,18 @@ bit_1.direction = Direction.OUTPUT
 bit_0 = DigitalInOut(board.D1)
 bit_0.direction = Direction.OUTPUT
 
+error_led = DigitalInOut(board.LED_R)
+error_led.direction = Direction.OUTPUT
+error_led.value = 1
+
+ON = 0
+MED = 32767
+DIM = 62000
+OFF = 65535
+status_led = pwmio.PWMOut(board.LED_B, frequency=1000, duty_cycle=OFF)
+
 speaker = pwmio.PWMOut(board.D4, frequency=500, duty_cycle=0,
                        variable_frequency=True)
-
-low = 65535 // 16
-med = 65535 // 4
-high = 65535 // 2
-status = pwmio.PWMOut(board.D5, frequency=60, duty_cycle=med,
-                      variable_frequency=True)
 
 
 def s_0():
@@ -79,7 +82,7 @@ def s_4():
     print(f"state 4")
     audible_on()
     state_leds(1)
-    status_on(med)
+    status_on(ON)
     return (state_4)
 
 
@@ -87,7 +90,7 @@ def s_5():
     print(f"state 5")
     ultra_random()
     state_leds(2)
-    status_on(med)
+    status_on(ON)
     return (state_5)
 
 
@@ -95,7 +98,7 @@ def s_6():
     print(f"state 6")
     ultra_2()
     state_leds(3)
-    status_on(med)
+    status_on(ON)
     return (state_6)
 
 
@@ -120,24 +123,20 @@ def state_leds(n):
 
 
 def error(e):
-    print(f"{e=}")
-    rgb('r')
-
-
-def status_led(s):
-    if startup:
-        print(f"{s=}")
-        status.value = s
+    if e == 0:
+        error_led = 1
+    else:
+        print(f"{e=}")
+        error_led.value = 0
 
 
 def status_off():
-    status.duty_cycle = 0
+    status_led.duty_cycle = OFF
     return(0)
 
 
-def status_on(dc):
-    status.frequency = 60
-    status.duty_cycle = dc
+def status_on(s):
+    status_led.duty_cycle = s
     return(0)
 
 
@@ -182,6 +181,7 @@ state_6 = states(6, s_0, s_0)
 
 init = True
 STATE = state_0
+error(0)
 while True:
     if init:
         rand_delay = 0
@@ -200,7 +200,7 @@ while True:
     else:
         startup = False
         state_leds(0)
-        status_on(low)
+        status_on(DIM)
     if STATE.state == 5:
         if ticks_ms() >= current_time + rand_delay:
             current_time = ticks_ms()
@@ -214,5 +214,5 @@ while True:
             STATE = STATE.onENTER()
 
         else:
-            error(0)
+            error(1)
     pressed = None

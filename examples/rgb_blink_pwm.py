@@ -36,6 +36,7 @@ def bin_leds(value):
         GREEN.duty_cycle = OFF
         BLUE.duty_cycle = OFF
 
+
 while True:
     for i in range(5):
         bin_leds(i)
